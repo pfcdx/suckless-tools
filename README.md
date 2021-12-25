@@ -8,7 +8,7 @@ I will not post a screenshot here, go ahead and try it yourself.
 It is mostly updated change-by-change.
 
 # Plans:
-use tcc instead of cc
-make tags look more beatiful
-try to find a better font
-try to fix st or search for a new minimalist terminal
+use tcc instead of cc -
+make tags look more beatiful -
+try to find a better font -
+try to fix st or search for a new minimalist terminal -
