@@ -15,6 +15,6 @@ It is mostly updated change-by-change.
 
 make tags look more beatiful -
 
-+ try to find a better font -
+++ try to find a better font -
 
 try to fix st or search for a new minimalist terminal -
