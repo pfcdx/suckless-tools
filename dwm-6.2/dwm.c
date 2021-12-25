@@ -187,7 +187,6 @@ static void detachstack(Client *c);
 static Monitor *dirtomon(int dir);
 static void drawbar(Monitor *m);
 static void drawbars(void);
-static void enternotify(XEvent *e);
 static void expose(XEvent *e);
 static void focus(Client *c);
 static void focusin(XEvent *e);
@@ -813,6 +812,7 @@ drawbar(Monitor *m)
 	}
 	x = 0;
 	for (i = 0; i < LENGTH(tags); i++) {
+		
 		w = TEXTW(tags[i]);
 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
 		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
@@ -820,6 +820,7 @@ drawbar(Monitor *m)
 			drw_rect(drw, x + boxs, boxs, boxw, boxw,
 				m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
 				urg & 1 << i);
+
 		x += w;
 	}
 	w = blw = TEXTW(m->ltsymbol);
@@ -1462,7 +1463,9 @@ resizemouse(const Arg *arg)
 	if (XGrabPointer(dpy, root, False, MOUSEMASK, GrabModeAsync, GrabModeAsync,
 		None, cursor[CurResize]->cursor, CurrentTime) != GrabSuccess)
 		return;
+
 	XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, c->w + c->bw - 1, c->h + c->bw - 1);
+
 	do {
 		XMaskEvent(dpy, MOUSEMASK|ExposureMask|SubstructureRedirectMask, &ev);
 		switch(ev.type) {
@@ -1478,6 +1481,7 @@ resizemouse(const Arg *arg)
 
 			nw = MAX(ev.xmotion.x - ocx - 2 * c->bw + 1, 1);
 			nh = MAX(ev.xmotion.y - ocy - 2 * c->bw + 1, 1);
+
 			if (c->mon->wx + nw >= selmon->wx && c->mon->wx + nw <= selmon->wx + selmon->ww
 			&& c->mon->wy + nh >= selmon->wy && c->mon->wy + nh <= selmon->wy + selmon->wh)
 			{
@@ -1485,12 +1489,15 @@ resizemouse(const Arg *arg)
 				&& (abs(nw - c->w) > snap || abs(nh - c->h) > snap))
 					togglefloating(NULL);
 			}
+			
 			if (!selmon->lt[selmon->sellt]->arrange || c->isfloating)
 				resize(c, c->x, c->y, nw, nh, 1);
 			break;
 		}
 	} while (ev.type != ButtonRelease);
+
 	XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, c->w + c->bw - 1, c->h + c->bw - 1);
+
 	XUngrabPointer(dpy, CurrentTime);
 	while (XCheckMaskEvent(dpy, EnterWindowMask, &ev));
 	if ((m = recttomon(c->x, c->y, c->w, c->h)) != selmon) {
@@ -1756,6 +1763,7 @@ setup(void)
 	scheme = ecalloc(LENGTH(colors), sizeof(Clr *));
 	for (i = 0; i < LENGTH(colors); i++)
 		scheme[i] = drw_scm_create(drw, colors[i], 3);
+
 	/* init system tray */
 	updatesystray();
 	/* init bars */

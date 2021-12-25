@@ -72,7 +72,7 @@ static const struct arg args[] = {
 	{ run_command, "%s] ", "sensors | awk '/^Package/ {print $4}'" }, 
 	{ ram_perc, "[: %s%% ", NULL  	        },
 	{ run_command, "%s MiB] ", "free -m | awk '/^Mem/ {print $3}'"},
-	{ run_command, "[: %s] ", "df -h | grep '/dev/dm-1' | awk '{print $4}'"},
+	{ run_command, "[: %s] ", "df -h | grep '/dev/mapper/void1-root' | awk '{print $4}'"},
 /*	{ battery_perc, "[: %s%] ", "BAT1"		}, */
     { datetime, "[: %s]",           "%T"       },
 
