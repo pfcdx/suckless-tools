@@ -1,21 +1,26 @@
+#include <X11/XF86keysym.h>
+
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int borderpx  = 3;        /* border pixel of windows */
+static const unsigned int gappx     = 6;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
 static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=10" };
-static const char dmenufont[]       = "monospace:size=10";
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
+static const int topbar             = 0;        /* 0 means bottom bar */
+static const char *fonts[]          = { "Ubuntu Nerd Font:size=11" }; 
+static const char dmenufont[]       = "Ubuntu Nerd Font:size=11";
+
+static const char col_gray1[]       = "#282828";
+static const char col_gray2[]       = "#3c3836";
+static const char col_gray3[]       = "#ebdbb2";
+static const char col_gray4[]       = "#fdf1c7";
+static const char col_cyan[]        = "#d79921";
+
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
@@ -23,20 +28,22 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "", "", "", "", "", "", "", "" };
 
-static const unsigned int ulinepad	= 5;	/* horizontal padding between the underline and tag */
-static const unsigned int ulinestroke	= 2;	/* thickness / height of the underline */
-static const unsigned int ulinevoffset	= 0;	/* how far above the bottom of the bar the line should appear */
-static const int ulineall 		= 0;	/* 1 to show underline on all tags, 0 for just the active ones */
 
 static const Rule rules[] = {
-	/* 
+	/* xprop(1):
+	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+    { "Krita",      NULL,      NULL,       0,            1,           -1 },
+    { "Firefox",    NULL,      NULL,       1 << 1,       0,           -1 },
+    { "strawberry", NULL,      NULL,       1 << 4,       0,           -1 },
+    { "Steam",      NULL,      NULL,       1 << 3,       0,           -1 },
+    { "Element",    NULL,      NULL,       1 << 2,       0,           -1 },
+    { "qutebrowser", NULL,    NULL,       1 << 1,       0,           -1 },
+    { "nheko",       NULL,    NULL,       1 << 2,       0,           -1 },
 };
 
 /* layout(s) */
@@ -69,14 +76,20 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
+static const char *upvol[]   = { "amixer", "set", "Master", "5%+",     NULL };
+static const char *downvol[] = { "amixer", "set", "Master", "5%-",     NULL };
+static const char *mutevol[] = { "amixer", "set", "Master", "toggle",  NULL };
+static const char *playpause[] = { "playerctl", "play-pause", NULL };
+static const char *next[] = { "playerctl",  "next", NULL};
+static const char *prev[] = { "playerctl", "previous", NULL};
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
+	{ MODKEY,	                XK_j,      focusstack,     {.i = +1 } },
+	{ MODKEY,       	        XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
@@ -107,7 +120,15 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+    { 0,               XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
+    { 0,               XF86XK_AudioMute, spawn, {.v = mutevol } },
+    { 0,               XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
+    { 0,               XF86XK_AudioPlay, spawn, {.v = playpause} },
+    { 0,               XF86XK_AudioNext, spawn, {.v = next } },
+    { 0,               XF86XK_AudioPrev, spawn, {.v = prev } },
 };
+
+
 
 /* button definitions */
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */

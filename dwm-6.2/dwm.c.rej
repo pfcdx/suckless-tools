@@ -1,11 +1,54 @@
---- dwm.c	2021-02-27 20:04:32.030570909 -0600
-+++ dwm.c	2021-03-16 16:41:21.468077151 -0500
-@@ -719,6 +719,8 @@ drawbar(Monitor *m)
- 		w = TEXTW(tags[i]);
- 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
- 		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
-+		if (ulineall || m->tagset[m->seltags] & 1 << i) /* if there are conflicts, just move these lines directly underneath both 'drw_setscheme' and 'drw_text' :) */
-+			drw_rect(drw, x + ulinepad, bh - ulinestroke - ulinevoffset, w - (ulinepad * 2), ulinestroke, 1, 0);
- 		if (occ & 1 << i)
- 			drw_rect(drw, x + boxs, boxs, boxw, boxw,
- 				m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
+--- dwm.c
++++ dwm.c
+@@ -52,8 +52,8 @@
+ #define ISVISIBLE(C)            ((C->tags & C->mon->tagset[C->mon->seltags]))
+ #define LENGTH(X)               (sizeof X / sizeof X[0])
+ #define MOUSEMASK               (BUTTONMASK|PointerMotionMask)
+-#define WIDTH(X)                ((X)->w + 2 * (X)->bw)
+-#define HEIGHT(X)               ((X)->h + 2 * (X)->bw)
++#define WIDTH(X)                ((X)->w + 2 * (X)->bw + gappx)
++#define HEIGHT(X)               ((X)->h + 2 * (X)->bw + gappx)
+ #define TAGMASK                 ((1 << LENGTH(tags)) - 1)
+ #define TEXTW(X)                (drw_fontset_getwidth(drw, (X)) + lrpad)
+ 
+@@ -1276,12 +1276,36 @@ void
+ resizeclient(Client *c, int x, int y, int w, int h)
+ {
+ 	XWindowChanges wc;
++	unsigned int n;
++	unsigned int gapoffset;
++	unsigned int gapincr;
++	Client *nbc;
+ 
+-	c->oldx = c->x; c->x = wc.x = x;
+-	c->oldy = c->y; c->y = wc.y = y;
+-	c->oldw = c->w; c->w = wc.width = w;
+-	c->oldh = c->h; c->h = wc.height = h;
+ 	wc.border_width = c->bw;
++
++	/* Get number of clients for the selected monitor */
++	for (n = 0, nbc = nexttiled(selmon->clients); nbc; nbc = nexttiled(nbc->next), n++);
++
++	/* Do nothing if layout is floating */
++	if (c->isfloating || selmon->lt[selmon->sellt]->arrange == NULL) {
++		gapincr = gapoffset = 0;
++	} else {
++		/* Remove border and gap if layout is monocle or only one client */
++		if (selmon->lt[selmon->sellt]->arrange == monocle || n == 1) {
++			gapoffset = 0;
++			gapincr = -2 * borderpx;
++			wc.border_width = 0;
++		} else {
++			gapoffset = gappx;
++			gapincr = 2 * gappx;
++		}
++	}
++
++	c->oldx = c->x; c->x = wc.x = x + gapoffset;
++	c->oldy = c->y; c->y = wc.y = y + gapoffset;
++	c->oldw = c->w; c->w = wc.width = w - gapincr;
++	c->oldh = c->h; c->h = wc.height = h - gapincr;
++
+ 	XConfigureWindow(dpy, c->win, CWX|CWY|CWWidth|CWHeight|CWBorderWidth, &wc);
+ 	configure(c);
+ 	XSync(dpy, False);
