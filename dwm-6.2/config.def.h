@@ -44,6 +44,7 @@ static const Rule rules[] = {
     { "Element",    NULL,      NULL,       1 << 2,       0,           -1 },
     { "qutebrowser", NULL,    NULL,       1 << 1,       0,           -1 },
     { "nheko",       NULL,    NULL,       1 << 2,       0,           -1 },
+    { "mpv",	    NULL,      NULL,      1 << 7,       1,           -1 },
 };
 
 /* layout(s) */
