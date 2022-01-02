@@ -4,7 +4,7 @@
 
 /* appearance */
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
-static const unsigned int gappx     = 6;        /* gaps between windows */
+static const unsigned int gappx     = 4;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
@@ -19,12 +19,18 @@ static const char col_gray1[]       = "#282828";
 static const char col_gray2[]       = "#3c3836";
 static const char col_gray3[]       = "#ebdbb2";
 static const char col_gray4[]       = "#fdf1c7";
-static const char col_cyan[]        = "#d79921";
+static const char col_cyan[]    = "#d79921";
+
+static const char col_bg0[] = "#282828";
+static const char col_bg1[] = "#3c3836";
+static const char col_fg1[] = "#ebdbb2";
+static const char col_fg0[] = "#fdf1c7";
+static const char col_yellow[] = "#928374";
 
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+	[SchemeNorm] = { col_fg1, col_bg0, col_bg1 },
+	[SchemeSel]  = { col_fg0, col_yellow,  col_yellow  },
 };
 
 /* tagging */
@@ -75,7 +81,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, /*"-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4,*/ NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *upvol[]   = { "amixer", "set", "Master", "5%+",     NULL };
 static const char *downvol[] = { "amixer", "set", "Master", "5%-",     NULL };
@@ -83,7 +89,6 @@ static const char *mutevol[] = { "amixer", "set", "Master", "toggle",  NULL };
 static const char *playpause[] = { "playerctl", "play-pause", NULL };
 static const char *next[] = { "playerctl",  "next", NULL};
 static const char *prev[] = { "playerctl", "previous", NULL};
-static const char *scs[] = {"maim", "-s", "|", "convert", "-", "\\(", "+clone", "-background", "black", "-shadow", "80x+3+5+5", "\\)", "+swap", "-background", "none", "-layers", "merge", "+repage", "~/Pictures/$(date", "+%s).png", NULL};
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -122,13 +127,12 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-	{ MODKEY,			XK_s,	   spawn,	   {.v = scs} },
-    { 0,               XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
-    { 0,               XF86XK_AudioMute, spawn, {.v = mutevol } },
-    { 0,               XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
-    { 0,               XF86XK_AudioPlay, spawn, {.v = playpause} },
-    { 0,               XF86XK_AudioNext, spawn, {.v = next } },
-    { 0,               XF86XK_AudioPrev, spawn, {.v = prev } },
+    	{ 0,               XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
+    	{ 0,               XF86XK_AudioMute, spawn, {.v = mutevol } },
+    	{ 0,               XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
+    	{ 0,               XF86XK_AudioPlay, spawn, {.v = playpause} },
+    	{ 0,               XF86XK_AudioNext, spawn, {.v = next } },
+    	{ 0,               XF86XK_AudioPrev, spawn, {.v = prev } },
 	
 };
 
