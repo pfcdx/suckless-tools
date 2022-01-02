@@ -4,7 +4,7 @@
 
 /* appearance */
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
-static const unsigned int gappx     = 6;        /* gaps between windows */
+static const unsigned int gappx     = 4;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
@@ -121,12 +121,13 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-    { 0,               XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
-    { 0,               XF86XK_AudioMute, spawn, {.v = mutevol } },
-    { 0,               XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
-    { 0,               XF86XK_AudioPlay, spawn, {.v = playpause} },
-    { 0,               XF86XK_AudioNext, spawn, {.v = next } },
-    { 0,               XF86XK_AudioPrev, spawn, {.v = prev } },
+    	{ 0,               XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
+    	{ 0,               XF86XK_AudioMute, spawn, {.v = mutevol } },
+    	{ 0,               XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
+    	{ 0,               XF86XK_AudioPlay, spawn, {.v = playpause} },
+    	{ 0,               XF86XK_AudioNext, spawn, {.v = next } },
+    	{ 0,               XF86XK_AudioPrev, spawn, {.v = prev } },
+	
 };
 
 

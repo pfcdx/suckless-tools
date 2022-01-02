@@ -83,6 +83,7 @@ static const char *mutevol[] = { "amixer", "set", "Master", "toggle",  NULL };
 static const char *playpause[] = { "playerctl", "play-pause", NULL };
 static const char *next[] = { "playerctl",  "next", NULL};
 static const char *prev[] = { "playerctl", "previous", NULL};
+static const char *scs[] = {"maim", "-s", "|", "convert", "-", "\\(", "+clone", "-background", "black", "-shadow", "80x+3+5+5", "\\)", "+swap", "-background", "none", "-layers", "merge", "+repage", "~/Pictures/$(date", "+%s).png", NULL};
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -121,12 +122,14 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY,			XK_s,	   spawn,	   {.v = scs} },
     { 0,               XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
     { 0,               XF86XK_AudioMute, spawn, {.v = mutevol } },
     { 0,               XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
     { 0,               XF86XK_AudioPlay, spawn, {.v = playpause} },
     { 0,               XF86XK_AudioNext, spawn, {.v = next } },
     { 0,               XF86XK_AudioPrev, spawn, {.v = prev } },
+	
 };
 
 
