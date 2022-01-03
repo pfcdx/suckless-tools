@@ -35,13 +35,13 @@ $(COM:=.o): config.mk $(REQ:=.h)
 slstatus.o: slstatus.c slstatus.h arg.h config.h config.mk $(REQ:=.h)
 
 .c.o:
-	tcc -o $@ -c $(CPPFLAGS) $(CFLAGS) $<
+	$(CC) -o $@ -c $(CPPFLAGS) $(CFLAGS) $<
 
 config.h:
 	cp config.def.h $@
 
 slstatus: slstatus.o $(COM:=.o) $(REQ:=.o)
-	tcc -o $@ $(LDFLAGS) $(COM:=.o) $(REQ:=.o) slstatus.o $(LDLIBS)
+	$(CC) -o $@ $(LDFLAGS) $(COM:=.o) $(REQ:=.o) slstatus.o $(LDLIBS)
 
 clean:
 	rm -f slstatus slstatus.o $(COM:=.o) $(REQ:=.o)

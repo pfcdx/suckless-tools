@@ -12,10 +12,10 @@ options:
 	@echo dmenu build options:
 	@echo "CFLAGS   = $(CFLAGS)"
 	@echo "LDFLAGS  = $(LDFLAGS)"
-	@echo "CC       = tcc"
+	@echo "CC       = $(CC)"
 
 .c.o:
-	tcc -c $(CFLAGS) $<
+	$(CC) -c $(CFLAGS) $<
 
 config.h:
 	cp config.def.h $@
@@ -23,10 +23,10 @@ config.h:
 $(OBJ): arg.h config.h config.mk drw.h
 
 dmenu: dmenu.o drw.o util.o
-	tcc -o $@ dmenu.o drw.o util.o $(LDFLAGS)
+	$(CC) -o $@ dmenu.o drw.o util.o $(LDFLAGS)
 
 stest: stest.o
-	tcc -o $@ stest.o $(LDFLAGS)
+	$(CC) -o $@ stest.o $(LDFLAGS)
 
 clean:
 	rm -f dmenu stest $(OBJ) dmenu-$(VERSION).tar.gz

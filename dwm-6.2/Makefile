@@ -12,10 +12,10 @@ options:
 	@echo dwm build options:
 	@echo "CFLAGS   = ${CFLAGS}"
 	@echo "LDFLAGS  = ${LDFLAGS}"
-	@echo "CC       = tcc"
+	@echo "CC       = ${CC}"
 
 .c.o:
-	tcc -c ${CFLAGS} $<
+	${CC} -c ${CFLAGS} $<
 
 ${OBJ}: config.h config.mk
 
@@ -23,7 +23,7 @@ config.h:
 	cp config.def.h $@
 
 dwm: ${OBJ}
-	tcc -o $@ ${OBJ} ${LDFLAGS}
+	${CC} -o $@ ${OBJ} ${LDFLAGS}
 
 clean:
 	rm -f dwm ${OBJ} dwm-${VERSION}.tar.gz
