@@ -11,7 +11,6 @@ I will not post a screenshot here, go ahead and try it yourself.
 It is mostly updated change-by-change.
 
 # Plans:
-+++ use tcc instead of cc
 
 +++ make tags look more beatiful
 
