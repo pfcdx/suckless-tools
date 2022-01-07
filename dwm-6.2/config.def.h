@@ -11,7 +11,7 @@ static const unsigned int systrayspacing = 2;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
 static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 0;        /* 0 means bottom bar */
+static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "Ubuntu Nerd Font:size=11" }; 
 static const char dmenufont[]       = "Ubuntu Nerd Font:size=11";
 
@@ -19,13 +19,13 @@ static const char col_gray1[]       = "#282828";
 static const char col_gray2[]       = "#3c3836";
 static const char col_gray3[]       = "#ebdbb2";
 static const char col_gray4[]       = "#fdf1c7";
-static const char col_cyan[]    = "#d79921";
+static const char col_cyan[]        = "#d79921";
 
 static const char col_bg0[] = "#282828";
 static const char col_bg1[] = "#3c3836";
 static const char col_fg1[] = "#ebdbb2";
 static const char col_fg0[] = "#fdf1c7";
-static const char col_yellow[] = "#928374";
+static const char col_yellow[] = "#83a598";
 
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
@@ -34,7 +34,7 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "", "", "", "", "", "", "", "" };
+static const char *tags[] = { "", "", "", "", "", "", "", "", "", };
 
 
 static const Rule rules[] = {
@@ -56,7 +56,7 @@ static const Rule rules[] = {
 /* layout(s) */
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 
 #include "fibonacci.c"
 static const Layout layouts[] = {
@@ -82,10 +82,9 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, /*"-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4,*/ NULL };
-static const char *termcmd[]  = { "st", NULL };
+static const char *termcmd[]  = { "st", "tmux", NULL };
 static const char *upvol[]   = { "amixer", "set", "Master", "5%+",     NULL };
 static const char *downvol[] = { "amixer", "set", "Master", "5%-",     NULL };
-static const char *mutevol[] = { "amixer", "set", "Master", "toggle",  NULL };
 static const char *playpause[] = { "playerctl", "play-pause", NULL };
 static const char *next[] = { "playerctl",  "next", NULL};
 static const char *prev[] = { "playerctl", "previous", NULL};
@@ -128,7 +127,6 @@ static Key keys[] = {
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
     	{ 0,               XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
-    	{ 0,               XF86XK_AudioMute, spawn, {.v = mutevol } },
     	{ 0,               XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
     	{ 0,               XF86XK_AudioPlay, spawn, {.v = playpause} },
     	{ 0,               XF86XK_AudioNext, spawn, {.v = next } },
