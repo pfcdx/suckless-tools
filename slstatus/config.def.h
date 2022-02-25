@@ -66,14 +66,13 @@ static const char unknown_str[] = "n/a";
 
 static const struct arg args[] = {
 	        /* function format          argument */
-	        { netspeed_rx, "[: %sB ", "enp2s0"},
-	        { netspeed_tx, "%sB] ", "enp2s0" },
-	        { cpu_perc, "[: %s%% ", NULL           },
+	        { netspeed_rx, "[%sB ", "eth0"},
+	        { netspeed_tx, "%sB] ", "eth0" },
+	        { cpu_perc, "[%s%% ", NULL           },
 	        { cpu_freq, "%sHZ ",            NULL                     },
 	        { run_command, "%s] ", "sensors | awk '/^Package/ {print $4}'"  },
-	        { ram_perc, "[: %s%% ", NULL           },
+	        { ram_perc, "[%s%% ", NULL           },
 	        { run_command, "%s MiB] ", "free -m | awk '/^Mem/ {print $3}'" },
-	        { run_command, "[: %s] ", "df -h | grep '/dev/mapper/void1-root' | awk '{print $4}'" },
-       	        { datetime, "[: %s]",           "%T"        },
+       	        { datetime, "[%s]",           "%T"        },
 								    
 };

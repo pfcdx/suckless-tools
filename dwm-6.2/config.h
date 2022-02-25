@@ -12,8 +12,8 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "Ubuntu Nerd Font:size=11" }; 
-static const char dmenufont[]       = "Ubuntu Nerd Font:size=11";
+static const char *fonts[]          = { "Terminus:style=Medium:size=13" }; 
+static const char dmenufont[]       = "Terminus:style=Medium:size=13";
 
 static const char col_gray1[]       = "#282828";
 static const char col_gray2[]       = "#3c3836";
@@ -34,7 +34,7 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "", "", "", "", "", "", "", "", "", };
+static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", };
 
 
 static const Rule rules[] = {
@@ -43,14 +43,16 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-    { "Krita",      NULL,      NULL,       0,            1,           -1 },
-    { "Firefox",    NULL,      NULL,       1 << 1,       0,           -1 },
-    { "strawberry", NULL,      NULL,       1 << 4,       0,           -1 },
-    { "Steam",      NULL,      NULL,       1 << 3,       0,           -1 },
-    { "Element",    NULL,      NULL,       1 << 2,       0,           -1 },
-    { "qutebrowser", NULL,    NULL,       1 << 1,       0,           -1 },
-    { "nheko",       NULL,    NULL,       1 << 2,       0,           -1 },
-    { "mpv",	    NULL,      NULL,      1 << 7,       1,           -1 },
+    { "Krita",              NULL,      NULL,       0,            1,           -1 },
+    { "LibreWolf",          NULL,      NULL,       1 << 0,       0,           -1 },
+    { "strawberry",         NULL,      NULL,       1 << 4,       0,           -1 },
+    { "Steam",              NULL,      NULL,       1 << 3,       0,           -1 },
+    { "Element",            NULL,      NULL,       1 << 3,       0,           -1 },
+    { "qutebrowser",        NULL,      NULL,       1 << 1,       0,           -1 },
+    { "nheko",              NULL,      NULL,       1 << 2,       0,           -1 },
+    { "mpv",	            NULL,      NULL,       1 << 7,       1,           -1 },
+    { "FreeTube",           NULL,      NULL,       1 << 2,       0,           -1 },
+    { "Transmission",       NULL,      NULL,       1 << 4,       0,           -1 },
 };
 
 /* layout(s) */
@@ -61,10 +63,10 @@ static const int resizehints = 0;    /* 1 means respect size hints in tiled resi
 #include "fibonacci.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "><>",      NULL },    /* no layout function means floating behavior */
+	{ "[@]",      spiral },    /* first entry is default */
+	{ "[]=",      tile },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
- 	{ "[@]",      spiral },
+ 	{ "><>",      NULL },
  	{ "[\\]",      dwindle },
 };
 
@@ -82,17 +84,19 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, /*"-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4,*/ NULL };
-static const char *termcmd[]  = { "st", "tmux", NULL };
+static const char *termcmd[]  = { "st", NULL };
 static const char *upvol[]   = { "amixer", "set", "Master", "5%+",     NULL };
 static const char *downvol[] = { "amixer", "set", "Master", "5%-",     NULL };
 static const char *playpause[] = { "playerctl", "play-pause", NULL };
 static const char *next[] = { "playerctl",  "next", NULL};
 static const char *prev[] = { "playerctl", "previous", NULL};
+static const char *screenshot[] = { "sh", "/home/p/scripts/scr", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+	{ 0,				XK_Print,  spawn,	   {.v = screenshot } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,	                XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,       	        XK_k,      focusstack,     {.i = -1 } },
@@ -108,8 +112,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[3]} },
 	{ MODKEY|ShiftMask,             XK_r,      setlayout,      {.v = &layouts[4]} },
-	{ MODKEY,                       XK_space,  setlayout,      {0} },
-	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
+	{ MODKEY|ShiftMask,             XK_space,  setlayout,      {0} },
+	{ MODKEY          ,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
