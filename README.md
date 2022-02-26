@@ -10,4 +10,4 @@ It is mostly updated change-by-change.
 # Plans:
 
 
---- fix layout keybindings
+++- fix layout keybindings
