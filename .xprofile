@@ -1,0 +1,15 @@
+#!/bin/sh
+
+setxkbmap tr & 
+slstatus &
+bgs ~/wallpaper.png &
+blueberry-tray &
+lxqt-policykit-agent &
+redshift-gtk &
+
+while true; do
+    # Log stderror to a file 
+    dwm 2> ~/.dwm.log
+    # No error logging
+    #dwm >/dev/null 2>&1
+done
