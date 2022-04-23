@@ -63,8 +63,8 @@ static const int resizehints = 0;    /* 1 means respect size hints in tiled resi
 #include "fibonacci.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[@]",      spiral },    /* first entry is default */
-	{ "[]=",      tile },    /* no layout function means floating behavior */
+	{ "[]=",      tile },    /* first entry is default */
+	{ "[@]",      spiral },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
  	{ "><>",      NULL },
  	{ "[\\]",      dwindle },
@@ -91,6 +91,7 @@ static const char *playpause[] = { "playerctl", "play-pause", NULL };
 static const char *next[] = { "playerctl",  "next", NULL};
 static const char *prev[] = { "playerctl", "previous", NULL};
 static const char *screenshot[] = { "sh", "/home/pfc/scr", NULL };
+static const char *lock[] = { "slock", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -108,10 +109,10 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY|ShiftMask,             XK_r,      setlayout,      {.v = &layouts[4]} },
+	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY|ShiftMask,             XK_p,      setlayout,      {.v = &layouts[4]} },
 	{ MODKEY|ShiftMask,             XK_space,  setlayout,      {0} },
 	{ MODKEY          ,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
@@ -129,8 +130,9 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-    	{ 0,               XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
+	{ MODKEY|ShiftMask,             XK_r,      quit,           {0} },
+	{ MODKEY|ShiftMask,		XK_q,	   spawn,	   { .v = lock } },	
+	{ 0,               XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
     	{ 0,               XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
     	{ 0,               XF86XK_AudioPlay, spawn, {.v = playpause} },
     	{ 0,               XF86XK_AudioNext, spawn, {.v = next } },
