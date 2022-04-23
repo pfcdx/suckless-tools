@@ -15,17 +15,17 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "Terminus:style=Medium:size=13" }; 
 static const char dmenufont[]       = "Terminus:style=Medium:size=13";
 
-static const char col_gray1[]       = "#282828";
-static const char col_gray2[]       = "#3c3836";
-static const char col_gray3[]       = "#ebdbb2";
-static const char col_gray4[]       = "#fdf1c7";
-static const char col_cyan[]        = "#d79921";
+static const char col_gray1[]       = "#222222";
+static const char col_gray2[]       = "#444444";
+static const char col_gray3[]       = "#bbbbbb";
+static const char col_gray4[]       = "#eeeeee";
+static const char col_cyan[]        = "#005577";
 
-static const char col_bg0[] = "#282828";
-static const char col_bg1[] = "#3c3836";
-static const char col_fg1[] = "#ebdbb2";
-static const char col_fg0[] = "#fdf1c7";
-static const char col_yellow[] = "#83a598";
+static const char col_bg0[] = "#222222";
+static const char col_bg1[] = "#444444";
+static const char col_fg1[] = "#bbbbbb";
+static const char col_fg0[] = "#eeeeee";
+static const char col_yellow[] = "#005577";
 
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
@@ -43,16 +43,16 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-    { "Krita",              NULL,      NULL,       0,            1,           -1 },
-    { "LibreWolf",          NULL,      NULL,       1 << 0,       0,           -1 },
-    { "strawberry",         NULL,      NULL,       1 << 4,       0,           -1 },
-    { "Steam",              NULL,      NULL,       1 << 3,       0,           -1 },
-    { "Element",            NULL,      NULL,       1 << 3,       0,           -1 },
-    { "qutebrowser",        NULL,      NULL,       1 << 1,       0,           -1 },
+    { "adblock-spotify",    NULL,      NULL,       1 << 1,            1,           -1 },
+    { "Mozilla Firefox",    NULL,      NULL,       1 << 0,       0,           -1 },
+    { "Spotify",            NULL,      NULL,       1 << 4,       0,           -1 },
+    { "Steam",              NULL,      NULL,       1 << 4,       0,           -1 },
+    { "discord",            NULL,      NULL,       1 << 3,       0,           -1 },
+    { "tutanota-desktop",   NULL,      NULL,       1 << 2,       0,           -1 },
     { "nheko",              NULL,      NULL,       1 << 2,       0,           -1 },
-    { "mpv",	            NULL,      NULL,       1 << 7,       1,           -1 },
-    { "FreeTube",           NULL,      NULL,       1 << 2,       0,           -1 },
-    { "Transmission",       NULL,      NULL,       1 << 4,       0,           -1 },
+    { "mpv",	            NULL,      NULL,       1 << 2,       1,           -1 },
+    { "MultiMC",            NULL,      NULL,       1 << 6,       0,           -1 },
+    { "pycharm",            NULL,      NULL,       1 << 1,       0,           -1 },
 };
 
 /* layout(s) */
@@ -83,14 +83,14 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, /*"-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4,*/ NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *upvol[]   = { "amixer", "set", "Master", "5%+",     NULL };
 static const char *downvol[] = { "amixer", "set", "Master", "5%-",     NULL };
 static const char *playpause[] = { "playerctl", "play-pause", NULL };
 static const char *next[] = { "playerctl",  "next", NULL};
 static const char *prev[] = { "playerctl", "previous", NULL};
-static const char *screenshot[] = { "sh", "/home/p/scripts/scr", NULL };
+static const char *screenshot[] = { "sh", "/home/pfc/scr", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
