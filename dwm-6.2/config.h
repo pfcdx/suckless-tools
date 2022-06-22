@@ -3,14 +3,14 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 0;        /* border pixel of windows */
-static const unsigned int gappx     = 5;        /* gaps between windows */
+static const unsigned int borderpx  = 3;        /* border pixel of windows */
+static const unsigned int gappx     = 3;        /* gaps between windows */
 static const unsigned int snap      = 32;
 static const unsigned int cornerrad = 4;
-static const unsigned int gappih    = 10;
-static const unsigned int gappiv    = 10;
-static const unsigned int gappoh    = 10;
-static const unsigned int gappov    = 10;
+static const unsigned int gappih    = 3;
+static const unsigned int gappiv    = 3;
+static const unsigned int gappoh    = 3;
+static const unsigned int gappov    = 3;
 static const int smartgaps          = 1;
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
@@ -18,8 +18,8 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "Terminus:style=Medium:size=13" }; 
-static const char dmenufont[]       = "Terminus:style=Medium:size=13";
+static const char *fonts[]          = { "Roboto:style=Medium:size=12" }; 
+static const char dmenufont[]       = "Roboto:style=Medium:size=12";
 
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
@@ -48,23 +48,30 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-    { "adblock-spotify",    NULL,      NULL,       1 << 1,            1,           -1 },
-    { "Mozilla Firefox",    NULL,      NULL,       1 << 0,       0,           -1 },
-    { "Spotify",            NULL,      NULL,       1 << 4,       0,           -1 },
-    { "Steam",              NULL,      NULL,       1 << 4,       0,           -1 },
-    { "discord",            NULL,      NULL,       1 << 3,       0,           -1 },
-    { "tutanota-desktop",   NULL,      NULL,       1 << 2,       0,           -1 },
-    { "nheko",              NULL,      NULL,       1 << 2,       0,           -1 },
-    { "mpv",	            NULL,      NULL,       1 << 2,       1,           -1 },
-    { "MultiMC",            NULL,      NULL,       1 << 6,       0,           -1 },
-    { "pycharm",            NULL,      NULL,       1 << 1,       0,           -1 },
-};
+	/* class      instance    title       tags mask     isfloating   ispermanent monitor */
+    { "adblock-spotify",    NULL,      NULL,       1 << 1,       1,      False,   		    -1 },
+    { "firefox",            NULL,      NULL,       1 << 0,       0,      False,     	    -1 },
+    { "Spotify",            NULL,      NULL,       1 << 4,       0,      False,     		-1 },
+    { "Steam",              NULL,      NULL,       1 << 4,       0,      False,   	 	 	-1 },
+    { "discord",            NULL,      NULL,       1 << 3,       0,      False,   		    -1 },
+    { "tutanota-desktop",   NULL,      NULL,       1 << 2,       0,      False,   	 	    -1 },
+    { "nheko",              NULL,      NULL,       1 << 2,       0,      False,   	 	    -1 },
+    { "mpv",	            NULL,      NULL,       1 << 2,       1,      False,     	    -1 },
+    { "MultiMC",            NULL,      NULL,       1 << 6,       0,      False,     	    -1 },
+    { "pycharm",            NULL,      NULL,       1 << 1,       0,      False,     	    -1 },
+    { "code", 	  	        NULL,      NULL,	   1 << 1,	     0,      False,    	      	-1 },
+    { "heroic",				NULL, 	   NULL,       1 << 7,       0,      False,	            -1 },
+    { "mupen64plus", 		NULL,      NULL,       1 << 6,       1,    	 False,             -1 },
+    { "torbrowser-launcher",  	NULL,      NULL,       1 << 8,    0,     False,								    -1 },	
+    { "virtualbox",	        NULL,      NULL,       1 << 3,       0,      False, 	 	    -1 },
+	{ "wine",				NULL,      NULL,       1 << 5,       1,      False,				-1 },
+	{ "xfce4-terminal",     NULL,      NULL,       1 << 0,       1,      False,             -1 },
+	};
 
 /* layout(s) */
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
+static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 
 #include "fibonacci.c"
 static const Layout layouts[] = {
@@ -98,6 +105,7 @@ static const char *next[] = { "playerctl",  "next", NULL};
 static const char *prev[] = { "playerctl", "previous", NULL};
 static const char *screenshot[] = { "sh", "/home/pfc/scr", NULL };
 static const char *lock[] = { "slock", NULL };
+static const char *killcmd[] = { "sh", "/home/pfc/kill", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -113,7 +121,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
+	{ MODKEY|ShiftMask,             XK_c,      spawn,           {.v = killcmd} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
@@ -137,7 +145,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_r,      quit,           {0} },
-	{ MODKEY|ShiftMask,		XK_q,	   spawn,	   { .v = lock } },	
+	{ MODKEY|ShiftMask,		XK_l,	   spawn,	   { .v = lock } },	
 	{ 0,               XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
     	{ 0,               XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
     	{ 0,               XF86XK_AudioPlay, spawn, {.v = playpause} },
